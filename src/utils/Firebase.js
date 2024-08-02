@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDOS4Ms7D7XV-pyw3NFCyIwMB-E5ec1YWo",
-  authDomain: "sahilbookbinding-c02d9.firebaseapp.com",
-  projectId: "sahilbookbinding-c02d9",
-  storageBucket: "sahilbookbinding-c02d9.appspot.com",
-  messagingSenderId: "20730443457",
-  appId: "1:20730443457:web:b9ae6a4c483674eafec640",
+  apiKey: "AIzaSyCNVjgs0tj4ALJUc9SAMh0GTlR9lSKq76U",
+  authDomain: "sahilbookbinding-b474d.firebaseapp.com",
+  projectId: "sahilbookbinding-b474d",
+  storageBucket: "sahilbookbinding-b474d.appspot.com",
+  messagingSenderId: "97985170460",
+  appId: "1:97985170460:web:9b5f2813da311cc79fe3d9",
 };
 
 // Initialize Firebase
