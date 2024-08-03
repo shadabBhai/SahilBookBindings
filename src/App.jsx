@@ -4,13 +4,18 @@ import Login from "./Pages/Login"
 import Home from "./Pages/Home.page"
 import Product from "./Pages/Product"
 import Thesis from "./Pages/Thesis"
+import Layout from "./Components/Layout"
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Layout />,
     children: [
+      {
+        path: "/",
+        element: <Home />
+      },
       {
         path: "login",
         element: <Login />
