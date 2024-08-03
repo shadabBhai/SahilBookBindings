@@ -1,7 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { checkValidFormData } from '../utils/Validate';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/Firebase';
+import { addUser, removeUser } from '../utils/UserSlice';
+import { useDispatch } from 'react-redux';
+
+
+
 
 const Login = () => {
     const [isSignIn, SetIsSignIn] = useState(true)
@@ -18,6 +23,8 @@ const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
     const [errorMessage, setErrorMessage] = useState(null)
+    const dispatch = useDispatch()
+
 
 
     const handleChange = (e) => {
@@ -47,6 +54,7 @@ const Login = () => {
                 // Signed in 
                 const user = userCredential.user;
                 console.log(user)
+
 
             })
             .catch((error) => {
@@ -96,6 +104,25 @@ const Login = () => {
 
 
     }
+
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const { uid, email, displayName } = user;
+
+                dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
+
+            } else {
+                // User is signed out
+                dispatch(removeUser())
+
+            }
+        }, []);
+
+    })
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -156,7 +183,7 @@ const Login = () => {
         </div>
     );
 
-};
+}
 
 
 export default Login;
