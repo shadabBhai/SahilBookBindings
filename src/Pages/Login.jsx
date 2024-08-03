@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
 import { checkValidFormData } from '../utils/Validate';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/Firebase';
 
 const Login = () => {
     const [isSignIn, SetIsSignIn] = useState(true)
@@ -16,6 +18,7 @@ const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
     const [errorMessage, setErrorMessage] = useState(null)
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,27 +40,53 @@ const Login = () => {
         e.preventDefault();
         // using useRef()
         const message = checkValidFormData(email.current.value, password.current.value)
-        if (message == null) {
-            setSignInFormData({
-                useremail: "",
-                password: ""
-            })
-        }
         setErrorMessage(message)
+        if (message) return
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user)
+
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                setErrorMessage(errorCode + "-" + errorMessage)
+            });
+        setSignInFormData({
+            useremail: "",
+            password: ""
+        })
+
 
     };
 
     const signUpHandleSubmit = (e) => {
         e.preventDefault();
         const message = checkValidFormData(signUpFormData.useremail, signUpFormData.password)
-        if (message == null) {
-            setSignUpFormData({
-                username: "",
-                useremail: "",
-                password: ""
-            })
-        }
         setErrorMessage(message)
+        if (message) {
+            setErrorMessage(message)
+            return
+        }
+        createUserWithEmailAndPassword(auth, signUpFormData.useremail, signUpFormData.password)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                console.log(user)
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorCode + "-" + errorMessage)
+            });
+        setSignUpFormData({
+            username: "",
+            useremail: "",
+            password: ""
+        })
 
     }
 
