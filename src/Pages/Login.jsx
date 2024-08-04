@@ -85,7 +85,10 @@ const Login = () => {
                 // Signed up 
                 const user = userCredential.user;
                 updateProfile(user, {
-                    displayName: signUpFormData.username, photoURL: ""
+                    displayName: signUpFormData.username,
+                }).then(() => {
+                    const { uid, email, displayName } = auth.currentUser;
+                    dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
                 })
             })
             .catch((error) => {
