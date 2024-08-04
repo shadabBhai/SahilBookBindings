@@ -1,7 +1,22 @@
-import React from 'react'
+
 import { Link } from "react-router-dom"
+import { auth } from '../utils/Firebase'
+import { signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 const Hearder = () => {
+
+    const navigate = useNavigate()
+    const handleLogout = () => {
+
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            navigate("/")
+        }).catch((error) => {
+            // An error happened.
+            console.log(error.message)
+        });
+    }
     return (
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto flex justify-between items-center">
@@ -12,14 +27,14 @@ const Hearder = () => {
 
                 {/* Middle Menu */}
                 <div className="hidden md:flex space-x-8">
-                    <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
-                    <Link to="/product" className="text-gray-300 hover:text-white">Products</Link>
-                    <Link to="/thesis" className="text-gray-300 hover:text-white">Thesis</Link>
+                    <Link to="/layout/home" className="text-gray-300 hover:text-white">Home</Link>
+                    <Link to="/layout/product" className="text-gray-300 hover:text-white">Products</Link>
+                    <Link to="/layout/thesis" className="text-gray-300 hover:text-white">Thesis</Link>
                 </div>
 
                 {/* Right Side Avatar */}
                 <div className="flex-shrink-0">
-                    <img className="h-8 w-8 rounded-full" src="https://via.placeholder.com/150" alt="Avatar" />
+                    <Link><img className="h-8 w-8 rounded-full" src="https://via.placeholder.com/150" alt="Avatar" onClick={handleLogout} /></Link>
                 </div>
             </div>
         </nav>
