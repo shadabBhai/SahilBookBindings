@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { checkValidFormData } from '../utils/Validate';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/Firebase';
 import { addUser, removeUser } from '../utils/UserSlice';
 import { useDispatch } from 'react-redux';
@@ -53,6 +53,7 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 // const user = userCredential.user;
+
                 // console.log(user)
 
 
@@ -83,7 +84,9 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
-                console.log(user)
+                updateProfile(user, {
+                    displayName: signUpFormData.username, photoURL: ""
+                })
             })
             .catch((error) => {
                 const errorCode = error.code;
