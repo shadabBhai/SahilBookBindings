@@ -34,7 +34,7 @@ const Hearder = () => {
 
                 {/* Right Side Avatar */}
                 <div className="flex-shrink-0">
-                    <Link><img className="h-8 w-8 rounded-full" src="https://via.placeholder.com/150" alt="Avatar" onClick={handleLogout} /></Link>
+                    <Link onClick={handleLogout} className="text-gray-300 hover:text-white">Logout</Link>
                 </div>
             </div>
         </nav>
