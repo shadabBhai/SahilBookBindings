@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 
 
 import Login from "./Pages/Login"
-import Home from "./Pages/Home.page"
+import Home from "./Pages/Home"
 import Product from "./Pages/Product"
 import Thesis from "./Pages/Thesis"
 import Layout from "./Components/Layout"
