@@ -87,20 +87,26 @@ const Product = () => {
                     Search
                 </button>
             </div>
-            <div className="flex justify-center items-center min-h-screen" >
 
-                <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {filteredProducts.length === 0 ? <NoProductFound />
-                        : filteredProducts?.map(item => (
-                            <ProductCard
-                                key={item.id}
-                                image={item.cover_image}
-                                title={item.title}
-                                author={item.author} />
-                        ))}
-                </div>
+            {
+                filteredProducts.length === 0 ? <NoProductFound /> :
+                    (
+                        <div className="flex justify-center items-center min-h-screen" >
 
-            </div>
+                            <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {filteredProducts?.map(item => (
+                                    <ProductCard
+                                        key={item.id}
+                                        image={item.cover_image}
+                                        title={item.title}
+                                        author={item.author} />
+                                ))}
+                            </div>
+
+                        </div>
+                    )
+            }
+
 
 
         </div>
