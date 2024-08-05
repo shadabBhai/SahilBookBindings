@@ -12,7 +12,6 @@ const Product = () => {
     const [error, setError] = useState(null);
     const dispatch = useDispatch()
     const selector = useSelector((state) => state.productForStore)
-    console.log(selector)
 
     useEffect(() => {
         const fetchData = async () => {

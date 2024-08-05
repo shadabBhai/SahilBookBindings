@@ -7,6 +7,7 @@ import Home from "./Pages/Home"
 import Product from "./Pages/Product"
 import Thesis from "./Pages/Thesis"
 import Layout from "./Components/Layout"
+import Error from "./Pages/Error"
 
 
 
@@ -26,6 +27,7 @@ const App = () => {
       path: '/',
       element: user ? <Navigate to="/layout/home" /> : <Login />,
     },
+
     {
       path: '/layout',
       element: user ? <Layout /> : <Navigate to="/" />,
@@ -43,6 +45,10 @@ const App = () => {
           element: <AuthenticatedRoute element={<Thesis />} />
         }
       ]
+    },
+    {
+      path: "*",
+      element: <Error />
     }
 
 
