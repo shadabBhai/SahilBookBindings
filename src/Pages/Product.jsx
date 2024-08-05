@@ -11,7 +11,11 @@ const Product = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const dispatch = useDispatch()
-    const selector = useSelector((state) => state.productForStore)
+    const products = useSelector((state) => state.productForStore)
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,7 +31,26 @@ const Product = () => {
         };
 
         fetchData();
-    }, []);
+    }, [dispatch]);
+
+    const handleSearchChange = (e) => {
+        // console.log(e.target.value)
+        setSearchQuery(e.target.value)
+    }
+    const handleSearchFilter = () => {
+        setSearchQuery(searchQuery)
+
+    }
+    useEffect(() => {
+        if (products) {
+            setFilteredProducts(
+                products.filter(product =>
+                    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    product.author.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+            );
+        }
+    }, [searchQuery, products]);
 
     if (loading) return (
         <div className="flex justify-center items-center min-h-screen gap-2 flex-wrap ">
@@ -47,9 +70,29 @@ const Product = () => {
 
     return (
         <div>
+            <div className="flex justify-center items-center m-4 space-x-4">
+                <input
+                    type="text"
+                    placeholder="Search by title or author..."
+                    className="p-2 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800 text-lg w-80"
+                    onChange={handleSearchChange}
+                />
+                <button
+                    className="px-5 py-3 bg-gray-200 hover:text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-800"
+                    onClick={handleSearchFilter}
+
+                >
+                    Search
+                </button>
+            </div>
             <div className="flex justify-center items-center min-h-screen" >
+
                 <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {selector.map(item => (
+                    {filteredProducts.length === 0 ? (
+                        <div className="flex justify-center items-center min-h-screen">
+                            <p className="text-xl text-gray-700">No products found</p>
+                        </div>
+                    ) : filteredProducts?.map(item => (
                         <ProductCard
                             key={item.id}
                             image={item.cover_image}
