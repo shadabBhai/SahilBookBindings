@@ -4,6 +4,7 @@ import Loading from './Loading';
 import ProductCard from '../Components/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductToStore } from '../utils/ProductSlice';
+import NoProductFound from './NoProductFound';
 
 const Product = () => {
 
@@ -13,6 +14,7 @@ const Product = () => {
     const dispatch = useDispatch()
     const products = useSelector((state) => state.productForStore)
     const [searchQuery, setSearchQuery] = useState('');
+    const [filterQuery, setFilterQuery] = useState(searchQuery)
     const [filteredProducts, setFilteredProducts] = useState([]);
 
 
@@ -38,19 +40,19 @@ const Product = () => {
         setSearchQuery(e.target.value)
     }
     const handleSearchFilter = () => {
-        setSearchQuery(searchQuery)
+        setFilterQuery(searchQuery)
 
     }
     useEffect(() => {
         if (products) {
             setFilteredProducts(
                 products.filter(product =>
-                    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.author.toLowerCase().includes(searchQuery.toLowerCase())
+                    product.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
+                    product.author.toLowerCase().includes(filterQuery.toLowerCase())
                 )
             );
         }
-    }, [searchQuery, products]);
+    }, [filterQuery, products]);
 
     if (loading) return (
         <div className="flex justify-center items-center min-h-screen gap-2 flex-wrap ">
@@ -88,17 +90,14 @@ const Product = () => {
             <div className="flex justify-center items-center min-h-screen" >
 
                 <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {filteredProducts.length === 0 ? (
-                        <div className="flex justify-center items-center min-h-screen">
-                            <p className="text-xl text-gray-700">No products found</p>
-                        </div>
-                    ) : filteredProducts?.map(item => (
-                        <ProductCard
-                            key={item.id}
-                            image={item.cover_image}
-                            title={item.title}
-                            author={item.author} />
-                    ))}
+                    {filteredProducts.length === 0 ? <NoProductFound />
+                        : filteredProducts?.map(item => (
+                            <ProductCard
+                                key={item.id}
+                                image={item.cover_image}
+                                title={item.title}
+                                author={item.author} />
+                        ))}
                 </div>
 
             </div>
