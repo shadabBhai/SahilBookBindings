@@ -5,6 +5,7 @@ import ProductCard from '../Components/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductToStore } from '../utils/ProductSlice';
 import NoProductFound from './NoProductFound';
+import NetworkError from './NetworkError';
 
 const Product = () => {
 
@@ -67,7 +68,9 @@ const Product = () => {
 
         </div>
     )
-    if (error) return <p>Error: {error.message}</p>;
+    if (error) return <NetworkError message={error.message} />;
+
+
 
 
     return (
