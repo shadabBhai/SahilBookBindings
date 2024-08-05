@@ -2,19 +2,24 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loading from './Loading';
 import ProductCard from '../Components/ProductCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProductToStore } from '../utils/ProductSlice';
 
 const Product = () => {
 
-    const [data, setData] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const dispatch = useDispatch()
+    const selector = useSelector((state) => state.productForStore)
+    console.log(selector)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://freetestapi.com/api/v1/books');
-                setData(response.data);
-                console.log(response.data[0])
+                //console.log(response.data)
+                dispatch(addProductToStore(response.data))
                 setLoading(false);
             } catch (error) {
                 setError(error);
@@ -40,11 +45,12 @@ const Product = () => {
     )
     if (error) return <p>Error: {error.message}</p>;
 
+
     return (
         <div>
             <div className="flex justify-center items-center min-h-screen" >
                 <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {data.map(item => (
+                    {selector.map(item => (
                         <ProductCard
                             key={item.id}
                             image={item.cover_image}
