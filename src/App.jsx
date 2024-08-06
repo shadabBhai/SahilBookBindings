@@ -22,8 +22,8 @@ const AuthenticatedRoute = ({ element }) => {
 const App = () => {
   const user = useSelector((state) => state.user)
   const products = useSelector((state) => state.productForStore)
-  console.log(products)
-  console.log(user)
+  // console.log(products)
+  // console.log(user)
   const router = createBrowserRouter([
     {
       path: '/',

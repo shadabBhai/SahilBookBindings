@@ -114,17 +114,17 @@ const Login = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            console.log("Auth state changed. User:", user); // Debugging line
+            // console.log("Auth state changed. User:", user); // Debugging line
             if (user) {
                 const { uid, email, displayName } = user;
                 dispatch(addUser({ uid, email, displayName }));
             } else {
                 dispatch(removeUser());
-                console.log("remove")
+                // console.log("remove")
             }
         });
         return () => {
-            console.log("Cleaning up onAuthStateChanged listener"); // Debugging line
+            // console.log("Cleaning up onAuthStateChanged listener"); // Debugging line
             unsubscribe();
         };
     }, [dispatch]);

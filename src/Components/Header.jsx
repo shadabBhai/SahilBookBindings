@@ -20,7 +20,7 @@ const Hearder = () => {
             navigate("/")
         }).catch((error) => {
             // An error happened.
-            console.log(error.message)
+            // console.log(error.message)
         });
     }
     return (
