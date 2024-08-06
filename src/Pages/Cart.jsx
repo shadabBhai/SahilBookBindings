@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { removeFromCart } from "../utils/CartSlice"
+import EmptyCart from "../Components/EmptyCart"
 const Cart = () => {
     const cartItems = useSelector((state) => state.cart)
     const dispatch = useDispatch()
@@ -8,7 +9,7 @@ const Cart = () => {
         console.log(id)
         dispatch(removeFromCart({ id }))
     }
-    return (
+    return cartItems.length === 0 ? <EmptyCart /> : (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
             <div className="space-y-4">
@@ -27,15 +28,20 @@ const Cart = () => {
                         </div>
                         <button
                             onClick={() => handleRemoveFromCart(item.id)}
-                            className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition duration-200"
+                            className="bg-gray-200 hover:text-white py-1 px-3 rounded-md hover:bg-red-800 transition duration-200"
                         >
                             Remove
                         </button>
                     </div>
                 ))}
+                <div className="flex justify-center items-center">
+                    <button className="bg-gray-200 hover:text-white py-1 px-3 rounded-md hover:bg-gray-800 transition duration-200">Check Out</button>
+                </div>
+
             </div>
         </div>
     )
+
 }
 
 export default Cart
