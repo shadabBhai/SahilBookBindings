@@ -63,6 +63,7 @@ const Hearder = () => {
                     <Link to="/layout/home" className="text-gray-300 hover:text-white">Home</Link>
                     <Link to="/layout/product" className="text-gray-300 hover:text-white">Products</Link>
                     <Link to="/layout/thesis" className="text-gray-300 hover:text-white">Thesis</Link>
+                    <Link to="/layout/cart" className="text-gray-300 hover:text-white">Cart</Link>
 
 
                     <Link onClick={handleLogout} className="text-gray-300 hover:text-white">Logout</Link>
@@ -79,6 +80,7 @@ const Hearder = () => {
                     <Link to="/layout/home" className="block text-gray-300 hover:text-white">Home</Link>
                     <Link to="/layout/product" className="block text-gray-300 hover:text-white">Products</Link>
                     <Link to="/layout/thesis" className="block text-gray-300 hover:text-white">Thesis</Link>
+                    <Link to="/layout/cart" className="text-gray-300 hover:text-white">Cart</Link>
                     <Link onClick={handleLogout} className="block text-gray-300 hover:text-white">Logout</Link>
                 </div>
             </div>

@@ -1,18 +1,20 @@
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { addToCart } from '../utils/CartSlice';
 
 const ProductDetail = () => {
     const { id } = useParams(); // Extract product id from the URL
     const productList = useSelector((state) => state.productForStore); // Get products from Redux store
     const [singleProduct, setSingleProduct] = useState(null)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const foundProduct = productList.find(item => item.id == id);
         setSingleProduct(foundProduct)
     }, [])
     const handleAddToCart = () => {
-        console.log(singleProduct)
+        dispatch(addToCart(singleProduct))
     }
 
     // console.log(singleProduct)

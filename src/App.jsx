@@ -9,6 +9,7 @@ import Thesis from "./Pages/Thesis"
 import Layout from "./Components/Layout"
 import Error from "./Pages/Error"
 import ProductDetail from "./Pages/ProductDetail"
+import Cart from "./Pages/Cart"
 
 
 
@@ -48,6 +49,10 @@ const App = () => {
         {
           path: 'product/:id',
           element: <AuthenticatedRoute element={<ProductDetail />} />
+        },
+        {
+          path: 'cart',
+          element: <AuthenticatedRoute element={<Cart />} />
         },
 
       ],
