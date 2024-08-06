@@ -113,22 +113,21 @@ const Login = () => {
 
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            console.log("Auth state changed. User:", user); // Debugging line
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
                 const { uid, email, displayName } = user;
-
-                dispatch(addUser({ uid: uid, email: email, displayName: displayName }))
-
+                dispatch(addUser({ uid, email, displayName }));
             } else {
-                // User is signed out
-                dispatch(removeUser())
-
+                dispatch(removeUser());
+                console.log("remove")
             }
-        }, []);
-
-    })
+        });
+        return () => {
+            console.log("Cleaning up onAuthStateChanged listener"); // Debugging line
+            unsubscribe();
+        };
+    }, [dispatch]);
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">

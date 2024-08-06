@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addProductToStore } from '../utils/ProductSlice';
 import NoProductFound from './NoProductFound';
 import NetworkError from './NetworkError';
+import { Link } from 'react-router-dom';
 
 const Product = () => {
 
@@ -44,6 +45,8 @@ const Product = () => {
         setFilterQuery(searchQuery)
 
     }
+
+    // filter the products
     useEffect(() => {
         if (products) {
             setFilteredProducts(
@@ -98,11 +101,13 @@ const Product = () => {
 
                             <div className="m-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {filteredProducts?.map(item => (
-                                    <ProductCard
-                                        key={item.id}
-                                        image={item.cover_image}
-                                        title={item.title}
-                                        author={item.author} />
+                                    <Link to={`/layout/product/${item.id}`} key={item.id}>
+                                        <ProductCard
+                                            key={item.id}
+                                            image={item.cover_image}
+                                            title={item.title}
+                                            author={item.author} />
+                                    </Link>
                                 ))}
                             </div>
 
