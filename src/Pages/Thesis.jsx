@@ -29,6 +29,22 @@ const Thesis = () => {
         e.preventDefault();
         // Handle form submission
         console.log(formData);
+        setFormData({
+            file: null,
+            pageCount: '',
+            coverPageColor: 'red',
+            coverPagePrintingColor: 'golden',
+            transparentFoil: 'no',
+            address1: '',
+            address2: '',
+            pin: '',
+            district: '',
+            state: '',
+            mobile: '',
+            email: '',
+            name: '',
+
+        })
     };
 
     return (
