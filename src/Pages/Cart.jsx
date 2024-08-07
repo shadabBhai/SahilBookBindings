@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { removeFromCart } from "../utils/CartSlice"
 import EmptyCart from "../Components/EmptyCart"
+import { Link } from "react-router-dom"
 const Cart = () => {
     const cartItems = useSelector((state) => state.cart)
     const dispatch = useDispatch()
@@ -35,7 +36,10 @@ const Cart = () => {
                     </div>
                 ))}
                 <div className="flex justify-center items-center">
-                    <button className="bg-gray-200 hover:text-white py-1 px-3 rounded-md hover:bg-gray-800 transition duration-200">Check Out</button>
+                    <button className="bg-gray-500 text-white py-1 px-3 rounded-md disabled">Total Amount : $</button>
+                </div>
+                <div className="flex justify-center items-center">
+                    <Link to="/checkout"> <button className="bg-gray-200 hover:text-white py-1 px-3 rounded-md hover:bg-gray-800 transition duration-200">Check Out</button></Link>
                 </div>
 
             </div>

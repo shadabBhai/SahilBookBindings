@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from "react-redux"
 import { addThises } from '../utils/ThisesSlice';
+import { useNavigate } from "react-router-dom"
 
 const Thesis = () => {
     const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const Thesis = () => {
     });
     const dispatch = useDispatch()
     const [file, setFile] = useState(null)
+    const navigate = useNavigate()
 
 
     const handleChange = (e) => {
@@ -55,6 +57,8 @@ const Thesis = () => {
             name: '',
 
         })
+        navigate("/checkout")
+
     };
 
     return (

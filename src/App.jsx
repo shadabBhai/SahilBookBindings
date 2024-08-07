@@ -10,6 +10,7 @@ import Layout from "./Components/Layout"
 import Error from "./Pages/Error"
 import ProductDetail from "./Pages/ProductDetail"
 import Cart from "./Pages/Cart"
+import CheckOut from "./Pages/CheckOut"
 
 
 
@@ -22,7 +23,7 @@ const AuthenticatedRoute = ({ element }) => {
 
 const App = () => {
   const user = useSelector((state) => state.user)
-  const products = useSelector((state) => state.productForStore)
+
   // console.log(products)
   // console.log(user)
   const router = createBrowserRouter([
@@ -56,6 +57,11 @@ const App = () => {
         },
 
       ],
+
+    },
+    {
+      path: 'checkout',
+      element: <AuthenticatedRoute element={<CheckOut />} />
     },
     {
       path: "*",
