@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from "react-redux"
+import { addThises } from '../utils/ThisesSlice';
 
 const Thesis = () => {
     const [formData, setFormData] = useState({
-        file: null,
         pageCount: '',
         coverPageColor: 'red',
         coverPagePrintingColor: 'golden',
@@ -16,21 +17,30 @@ const Thesis = () => {
         email: '',
         name: '',
     });
+    const dispatch = useDispatch()
+    const [file, setFile] = useState(null)
+
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        setFormData({
-            ...formData,
-            [name]: files ? files[0] : value,
-        });
+        if (name === 'file' && files) {
+            setFile(files[0]);
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission
-        console.log(formData);
+        const fileMetadata = file ? { name: file.name, type: file.type, size: file.size } : null;
+        dispatch(addThises({ ...formData, fileMetadata }))
+        // console.log({ ...formData, fileMetadata });
         setFormData({
-            file: null,
+
             pageCount: '',
             coverPageColor: 'red',
             coverPagePrintingColor: 'golden',
@@ -232,7 +242,7 @@ const Thesis = () => {
                         type="submit"
                         className="w-full bg-gray-300 hover:text-white p-2 rounded hover:bg-gray-800"
                     >
-                        Submit
+                        Check out
                     </button>
                 </div>
             </form>
