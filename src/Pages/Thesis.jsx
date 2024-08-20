@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import { useDispatch } from "react-redux"
-import { addThises } from '../utils/ThisesSlice';
+import { addThises } from '../utils/ThisesSlice'
 import { useNavigate } from "react-router-dom"
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { storage } from '../utils/Firebase'
 
 const Thesis = () => {
     const [formData, setFormData] = useState({
@@ -38,9 +40,36 @@ const Thesis = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission
-        const fileMetadata = file ? { name: file.name, type: file.type, size: file.size } : null;
-        dispatch(addThises({ ...formData, fileMetadata }))
-        // console.log({ ...formData, fileMetadata });
+        if (!file) {
+            alert("Please select  a file");
+            return
+        }
+        const storageRef = ref(storage, `theses/${file.name}`)
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                // console.log("Upload is" + progress + "% done");
+            },
+            (error) => {
+                console.error("Upload failed:", error)
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+
+                    const fileMetadata = { name: file.name, type: file.type, size: file.size, downloadURL };
+                    dispatch(addThises({ ...formData, fileMetadata }))
+                    // console.log({ ...formData, fileMetadata });
+                })
+
+            }
+        )
+
+
+
+
         setFormData({
 
             pageCount: '',
@@ -57,6 +86,7 @@ const Thesis = () => {
             name: '',
 
         })
+        setFile(null)
         navigate("/checkout")
 
     };
