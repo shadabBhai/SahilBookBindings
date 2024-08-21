@@ -131,7 +131,7 @@ const Login = () => {
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
-            <div className="box-content h-96 w-80 border bg-gray-200 rounded-lg shadow-md">
+            <div className="box-content h-[50vh] w-80 border bg-gray-200 rounded-lg shadow-md">
                 <h1 className="text-center text-xl font-bold pt-4"> {isSignIn ? "Sign In" : "Sign Up"}</h1>
                 <div className="mt-10 px-8">
                     <form onSubmit={isSignIn ? signInHandleSubmit : signUpHandleSubmit} className="flex flex-col">
@@ -182,6 +182,9 @@ const Login = () => {
                             {isSignIn ? "Sign In" : "Sign Up"}
                         </button>
                     </form>
+
+
+
 
                 </div>
             </div>
