@@ -4,6 +4,8 @@ import { addThises } from '../utils/ThisesSlice'
 import { useNavigate } from "react-router-dom"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { storage } from '../utils/Firebase'
+import { collection, addDoc } from 'firebase/firestore'
+import { db } from '../utils/Firebase'
 
 const Thesis = () => {
     const [formData, setFormData] = useState({
@@ -37,14 +39,14 @@ const Thesis = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Handle form submission
         if (!file) {
             alert("Please select  a file");
             return
         }
-        const storageRef = ref(storage, `theses/${file.name}`)
+        const storageRef = ref(storage, `thesis/${file.name}`)
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         uploadTask.on(
@@ -56,13 +58,21 @@ const Thesis = () => {
             (error) => {
                 console.error("Upload failed:", error)
             },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
 
-                    const fileMetadata = { name: file.name, type: file.type, size: file.size, downloadURL };
-                    dispatch(addThises({ ...formData, fileMetadata }))
-                    // console.log({ ...formData, fileMetadata });
-                })
+                const fileMetadata = { name: file.name, type: file.type, size: file.size, downloadURL };
+                dispatch(addThises({ ...formData, fileMetadata }))
+                console.log({ ...formData, fileMetadata });
+                try {
+                    const docRef = await addDoc(collection(db, "Thesis"),
+                        { ...formData, fileMetadata }
+                    );
+                    console.log("Document written with ID: ", docRef.id);
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+
 
             }
         )
